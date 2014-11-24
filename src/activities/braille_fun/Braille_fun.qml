@@ -40,6 +40,12 @@ ActivityBase {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         sourceSize.width: parent.width
+        onWidthChanged: {
+            animateX.to = background.width
+            animateX.restart();
+            animateY.restart();
+        }
+
         source: Activity.url + "hillside.svg"
         signal start
         signal stop
@@ -118,7 +124,8 @@ ActivityBase {
                 from: parent.width / 9
                 to: parent.width
                 duration: 11000
-                onRunningChanged: {if(plane_text.x == parent.width && animateX.running == false) {
+                onRunningChanged: {
+                    if(plane_text.x == parent.width && animateX.running == false) {
                         animate_sad_tux.start()
                         for(var i=0 ; i < Activity.currentLevel+1 ; i++) {
                             cardRepeater.itemAt(i).ins.clickable = false
@@ -157,7 +164,7 @@ ActivityBase {
                 properties: "y"
                 from: parent.height / 6
                 to: parent.height
-                duration: 12000
+                duration: 13000
             }
             PropertyAnimation {
                 id: animateColor
@@ -171,7 +178,6 @@ ActivityBase {
                         score.currentSubLevel++;
                         Activity.nextQuestion();
                         for(var i=0 ; i < Activity.currentLevel+1 ; i++) {
-
                             cardRepeater.itemAt(i).ins.brailleChar = ""
                             cardRepeater.itemAt(i).clearDots();
 
